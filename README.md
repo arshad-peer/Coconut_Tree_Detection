@@ -3,50 +3,78 @@
 **Problem Statement**:
 1.	Find the no. of rows and columns of trees in the image. To justify this, you should be able to detect the lines of the rows and columns. Hence, you need to produce an intermediate output wherein you have only lines detecting those rows and columns. Also, code to count them.
 2.	Find the total no. of trees in the image. Here also, you need to produce an intermediate output wherein you just have the centres of the trees. Also, a code to count them
-------------------------
+---
 **Step-by-Step Solution**:
 
-Step 1: The number of pixels (area) per tree is checked in astronomical data visualization and analysis software (SAOImageDS9) to set min to max area for contour operation.
+**Step 1:**  
+The number of pixels (area) per tree is visually analyzed using astronomical data visualization software (SAOImageDS9). This helps set the `min_area` and `max_area` parameters for the contour operation.
 
-Step 2: The input image is read in two formats, such as grayscale and RGB, for data visualization and vegetation detection, respectively.
+**Step 2:**  
+The input image is read in two formats:  
+- **Grayscale** for visualization and display.  
+- **RGB** for vegetation index calculation.
 
-Step 3: Generate VDVI using the RGB image (If the NIR channel was present, NDVI could have been generated). This highlights vegetation pixels in the image. A threshold (V_thresh_factor) is applied to obtain a binary vegetation mask. 
+**Step 3:**  
+The **Vegetation Difference Vegetation Index (VDVI)** is generated from the RGB image:  
+> _Note: If NIR data were available, NDVI would be used instead._  
+A threshold (`V_thresh_factor`) is applied to create a binary **vegetation mask**.
 
-Step 4: Converted the RGB image to YCrCb color space. The Y (luminance) channel is sent to the process of Histogram equalization to enhance contrast for better object separation [1].
+**Step 4:**  
+The RGB image is converted to the **YCrCb** color space.  
+- Only the **Y (luminance)** channel is processed.  
+- **Histogram Equalization** is applied to enhance contrast for better object separation [1].
 
-Step 5: The equalized Y channel is multiplied by the binary vegetation mask. This suppresses non-vegetated regions and enhances tree features.
+**Step 5:**  
+The **equalized Y channel** is multiplied by the **vegetation mask**.  
+- This suppresses non-vegetated regions.  
+- Enhances tree canopy features.
 
-Step 6: A small Gaussian blur is applied on the combined_Y_veg_mask from the previous step to smooth out noise before thresholding.
+**Step 6:**  
+A **Gaussian blur** is applied to the combined image to smoothen noise and small artifacts before binary conversion.
 
-Step 7: Converted the blurred image into a binary mask to isolate individual tree canopies.
+**Step 7:**  
+The blurred image is **thresholded** to produce a **binary mask** for isolating individual tree canopies.
 
-Step 8: Extracted contours from the binary image. Compute the bounding box and centroids of coconut trees by assigning min_area and max_area from the visual inspection.
+**Step 8:**  
+**Contours** are extracted from the binary image.  
+- **Bounding boxes** and **centroids** are calculated for each valid region.  
+- Only regions within the `min_area` and `max_area` thresholds are considered coconut trees.
 
-Step 9: Once the centroid_x and centroid_y are extracted, the same are clustered using a tolerance value to estimate horizontal row lines and vertical column lines. These lines may represent the plantation layout based on the plot visualization. 
+**Step 9:**  
+Extracted `centroid_x` and `centroid_y` values are **clustered** using a `tolerance` factor.  
+- These clusters help estimate **row** (horizontal) and **column** (vertical) lines,  
+- Visually representing the plantation layout.
 
-Step 8 (Another approach): Morphological Operations (Open and Close) are implemented to fill the gaps and unify broken canopies. After this, the same contour detection and feature extraction was followed on top of this Morphed image. 
-Note: This procedure helped to extract trees from the edges.
+**Step 10 (Alternative Approach):**  
+**Morphological operations** like `MORPH_CLOSE` or `MORPH_OPEN` are applied to:  
+- Fill small gaps,  
+- Connect broken canopies.  
+After this, the **same contour detection process** is applied again.  
 
-# Output 
+> **Note:** This approach improves detection for trees near the **edges or boundaries** of the image.
 
-***Without Morphing***:
+# 📤 Output
 
-Detected trees: 37, 
-No. of detected rows: 8, 
-No. of detected columns: 7
+### ⭐ Without Morphing
 
-***With Morphological Operation (MORPH_CLOSE)***:
-
-Detected trees: 35, 
-No. of detected rows: 8, 
-No. of detected columns: 8
-
-# Reference
-
-[1]	S. H. Al Mansoori, A. Kunhu, and H. Al Ahmad, “Automatic palm trees detection from multispectral UAV data using normalized difference vegetation index and circular Hough transform,” in High-Performance Computing in Geoscience and Remote Sensing VIII, B. Huang, S. López, and Z. Wu, Eds., Berlin, Germany: SPIE, Oct. 2018, p. 3. doi: 10.1117/12.2325732.
+- **Detected trees**: `37`  
+- **No. of detected rows**: `8`  
+- **No. of detected columns**: `7`
 
 
-# Libraries Used
+### ✅ With Morphological Operation (`MORPH_CLOSE`)
+
+- **Detected trees**: `35`  
+- **No. of detected rows**: `8`  
+- **No. of detected columns**: `8`
+
+# 📖 Reference
+
+[1]	S. H. Al Mansoori, A. Kunhu, and H. Al Ahmad, 
+“**Automatic palm trees detection from multispectral UAV data using normalized difference vegetation index and circular Hough transform**,” in High-Performance Computing in Geoscience and Remote Sensing VIII, B. Huang, S. López, and Z. Wu, Eds., Berlin, Germany: SPIE, Oct. 2018, p. 3. doi: 10.1117/12.2325732.
+
+
+# 📚 Libraries Used
 
 OpenCV
 
@@ -56,22 +84,30 @@ Pandas
 
 Matplotlib
 
-# How to Run the Algorithm
+# 🚀 How to Run the Algorithm
+
 ### 1. Install Dependencies
-Make sure you have Python installed (Python 3.8+ recommended). Then install the required libraries using:
 
-pip install -r requirements.txt
+Ensure you have Python 3.8 or above installed on your system. Then install the required Python packages using the following command:
 
+```bash
+pip install -r requirements.txt 
+```
 ### 2. Prepare the Input Image
 
-Place your RGB image in the "data" folder given
+Place your RGB input image inside the `data/` folder given
 
 ### 3. Run the Algorithm
 
-Execute the Python script from the terminal:
+Use the following command to execute the script:
 
+```bash
 python coconut_tree_detection.py
-
+```
 ### 4. Output
 
-Centroid coordinates of detected coconut trees are saved as "coconut_tree_centroids.csv" in output folder
+After successful execution:
+
+- The centroid coordinates of detected coconut trees will be saved as:
+
+    `output/coconut_tree_centroids.csv`
