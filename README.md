@@ -106,8 +106,6 @@ python coconut_tree_detection.py
 ```
 ### 4. Output
 
-After successful execution:
-
-- The centroid coordinates of detected coconut trees will be saved as:
+Centroid coordinates of detected coconut trees are saved as "coconut_tree_centroids.csv" in output folder
 
     `output/coconut_tree_centroids.csv`
