@@ -6,7 +6,7 @@
 ------------------------
 **Step-by-Step Solution**:
 
-Step 1: The number of pixels (area) per tree is checked in astronomical data visualization and analysis software (SAOImageDS9) to set min to max area for contour operation.
+Step 1: The number of pixels (area) per tree is checked in astronomical data visualization and analysis software (SAOImageDS9) to set the min to max area for contour operation.
 
 Step 2: The input image is read in two formats, such as grayscale and RGB, for data visualization and vegetation detection, respectively.
 
@@ -74,4 +74,4 @@ python coconut_tree_detection.py
 
 ### 4. Output
 
-Centroid coordinates of detected coconut trees are saved as "coconut_tree_centroids.csv" in output folder
+Centroid coordinates of detected coconut trees are saved as "coconut_tree_centroids.csv" in the output folder
